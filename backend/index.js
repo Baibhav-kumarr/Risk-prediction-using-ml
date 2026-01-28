@@ -13,7 +13,7 @@ app.use(cors({
   credentials: true
 }));
 // 🔥 MUST be added to handle preflight
-app.options("*", cors());
+app.options("/*", cors());
 app.use(express.json());
 
 
