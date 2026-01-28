@@ -7,7 +7,7 @@ import axios from "axios";
 const app = express();
 
 app.use(cors({
-  origin: process.env.CORS_ORIGIN,
+  origin: "https://risk-prediction-using-ml-2final.onrender.com",
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
