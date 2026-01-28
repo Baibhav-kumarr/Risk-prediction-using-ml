@@ -23,7 +23,7 @@ export default function App() {
     setResult("");
 
     try {
-      const res = await axios.post(import.meta.env.VITE_API_BASE + "/predict", {
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE}/predict`, {
         person_age: Number(formData.person_age),
         person_income: Number(formData.person_income),
         person_emp_length: Number(formData.person_emp_length),
