@@ -1,10 +1,22 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 import joblib
 
 app = FastAPI()
 
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://risk-prediction-using-ml-2final.onrender.com",
+        "https://risk-prediction-using-ml-1final.onrender.com"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # 🔹 Load trained Decision Tree model
 model = joblib.load("decision_tree_credit_model.pkl")
 
