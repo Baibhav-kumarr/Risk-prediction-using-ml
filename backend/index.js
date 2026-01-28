@@ -6,16 +6,14 @@ import axios from "axios";
 
 const app = express();
 
-app.use(
-  cors({
-    origin: "https://risk-prediction-using-ml-2final.onrender.com",
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type"],
-  })
-);
+app.use(cors({
+  origin: process.env.CORS_ORIGIN,
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"],
+}));
 
-// 🔥 THIS LINE FIXES PREFLIGHT
-app.options("*", cors());
+app.use(express.json());
+
 
 app.use(express.json());
 
@@ -23,7 +21,8 @@ const ML_API = process.env.ML_API;
 
 app.post("/predict", async (req, res) => {
   try {
-    const response = await axios.post(ML_API, req.body);
+const response = await axios.post(`${ML_API}/predict`, req.body);
+
     res.json(response.data);
   } catch (err) {
     console.error(err.message);
