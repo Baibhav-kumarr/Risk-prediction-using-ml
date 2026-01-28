@@ -1,50 +1,36 @@
-import dotenv from "dotenv";
-dotenv.config();
 import express from "express";
 import cors from "cors";
 import axios from "axios";
+import dotenv from "dotenv";
 
+dotenv.config();
 
 const app = express();
+
+// Middleware
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // allow requests with no origin (like Postman)
-      if (!origin) return callback(null, true);
-
-      const allowedOrigins = [
-        "https://risk-prediction-using-ml-2final.onrender.com"
-      ];
-
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type"],
+    origin: process.env.CORS_ORIGIN,
   })
 );
-
 app.use(express.json());
 
-const ML_API = process.env.ML_API || "http://127.0.0.1:8000/predict";
+// ENV values
+const PORT = process.env.PORT || 5000;
+const ML_API = process.env.ML_API;
 
+// Routes
 app.post("/predict", async (req, res) => {
   try {
     const response = await axios.post(ML_API, req.body);
     res.json(response.data);
- } catch (err) {
-  console.error(err.message);
-  res.status(500).json({ error: "ML service not responding" });
-}
-
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "ML service not responding" });
+  }
 });
 
-const PORT = process.env.PORT || 5000;
-
+// Start server
 app.listen(PORT, () => {
-  console.log(`Backend server is running on port ${PORT}`);
+  console.log(`Backend running on port ${PORT}`);
 });
-
