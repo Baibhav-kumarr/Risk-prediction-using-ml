@@ -1,8 +1,9 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import cors from "cors";
 import axios from "axios";
-import dotenv from "dotenv";
-dotenv.config();
+
 
 const app = express();
 app.use(cors(
@@ -17,11 +18,16 @@ app.post("/predict", async (req, res) => {
   try {
     const response = await axios.post(ML_API, req.body);
     res.json(response.data);
-  } catch (err) {
-    res.status(500).json({ error: "ML service not responding" });
-  }
+ } catch (err) {
+  console.error(err.message);
+  res.status(500).json({ error: "ML service not responding" });
+}
+
 });
 
-app.listen(process.env.PORT , () => {
-  console.log("Backend server is running");
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Backend server is running on port ${PORT}`);
 });
+
