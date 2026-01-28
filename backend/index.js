@@ -9,13 +9,13 @@ const app = express();
 app.use(cors({
   origin: process.env.CORS_ORIGIN,
   methods: ["GET", "POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 }));
-
+// 🔥 MUST be added to handle preflight
+app.options("*", cors());
 app.use(express.json());
 
-
-app.use(express.json());
 
 const ML_API = process.env.ML_API;
 
