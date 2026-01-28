@@ -20,7 +20,7 @@ const ML_API = process.env.ML_API;
 
 app.post("/predict", async (req, res) => {
   try {
-const response = await axios.post(`${ML_API}/predict`, req.body);
+const response = await axios.post(`https://risk-prediction-using-ml.onrender.com/predict`, req.body);
 
     res.json(response.data);
   } catch (err) {
