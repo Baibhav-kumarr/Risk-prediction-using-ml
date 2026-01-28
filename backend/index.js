@@ -6,10 +6,14 @@ import axios from "axios";
 
 
 const app = express();
-app.use(cors(
-  { origin: process.env.CORS_ORIGIN  }
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 
-));
 app.use(express.json());
 
 const ML_API = process.env.ML_API || "http://127.0.0.1:8000/predict";
